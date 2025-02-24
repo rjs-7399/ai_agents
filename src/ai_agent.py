@@ -9,3 +9,5 @@ from langchain_community.tools.tavily_search import TavilySearchResults
 
 openai_llm = OpenAI(model="gpt-4o-mini")
 groq_llm = ChatGroq(model="llama-3.3-70b-versatile")
+search_tool = TavilySearchResults(max_result=2)
+
