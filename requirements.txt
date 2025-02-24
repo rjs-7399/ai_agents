@@ -5,3 +5,4 @@ langgraph==0.2.74
 pydantic==2.10.6
 fastapi==0.115.8
 uvicorn==0.34.0
+streamlit==1.42.2
