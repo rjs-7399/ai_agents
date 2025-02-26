@@ -63,4 +63,12 @@
 - Here if we add a new approach in which at the time of traversing any new node the information from that perticular node will get appended to the state.
 - In this way the agent will have all the information about each node.
 - But here the LLM has one limitation called context window limit. That means LLM can store upto a fixed limit of things. Not more than that.
+- Step 3: Building Routing Logic
+- We have an AI Agent, which has a couple of abilities, with some paths. 
+- We have one main logic that recieves user's query and based on the user's query the agent is able to decide which path to take, which components to use. Which nodes to go to depending on the user's input.
+- Here the routing logic comes in the picture.
+- The chat model (our intelligent worker) that decides whether a tool is needed or not.
+- A special node called ToolNode that knows how to use different tools when needed.
+- A smart routing system that looks at each response and decides: "Does this need a tool ? If yes, let's use the tool and then continue the conversation"
+- "No tool needed ? Then let's wrap up the request."
 - 
