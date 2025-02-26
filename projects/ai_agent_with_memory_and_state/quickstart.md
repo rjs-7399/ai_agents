@@ -53,4 +53,14 @@
 - Multimodality - for more information on multimodal content.
 - Chat Model: It is the llm that is fine tune to be able to have chat conversation.
 - Tools: Provides capability to llm to interact with an external world.
+- Here from the simple graph we saw that we traversed node 1, so at node 1 the message state become node 1. At node 2 message state become node 2. At node 3 message state become node 3.
+- So at the time of traversing new node the message state will get changed pointing to that particular node.
+- So it won't keep track of older things that happened.
+- Everytime the values are getting overwritten on each node.
+- This is not effective as agent doesn't know anything from previous experience.
+- So here the concept of memory comes in.
+- Here we can add the reducer.
+- Here if we add a new approach in which at the time of traversing any new node the information from that perticular node will get appended to the state.
+- In this way the agent will have all the information about each node.
+- But here the LLM has one limitation called context window limit. That means LLM can store upto a fixed limit of things. Not more than that.
 - 
