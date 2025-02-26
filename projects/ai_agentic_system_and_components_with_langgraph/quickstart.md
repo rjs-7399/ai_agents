@@ -71,4 +71,7 @@
 - A special node called ToolNode that knows how to use different tools when needed.
 - A smart routing system that looks at each response and decides: "Does this need a tool ? If yes, let's use the tool and then continue the conversation"
 - "No tool needed ? Then let's wrap up the request."
+- Step 4: Implementation of memory
+- Thread scoped memory or short term memory can be stored in Checkpointers or a checkpoint DB.
+- Long Term Memory can be stored in a vector DB or vector Store.
 - 
