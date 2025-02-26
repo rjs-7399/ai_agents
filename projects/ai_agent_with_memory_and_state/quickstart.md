@@ -31,3 +31,8 @@
 - State is basically the object that we pass between different nodes and edges of our graph.
 - This object holds information that is used to communicate between the different nodes and edges.
 - It serves as the input/output schema for all nodes and edges.
+- Building A Simple AI Agent
+  - Building Graph State
+  - Building Nodes Functions
+  - Building Graph Nodes
+  - Building Edges
