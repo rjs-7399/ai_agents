@@ -36,3 +36,10 @@
   - Building Nodes Functions
   - Building Graph Nodes
   - Building Edges
+- Graph Invocation Notes
+- Compiled graphs implement the runnable protocol in Langchain. This allows us to work with graphs just like any other chain in LangChain.
+- To invoke the graph we need to pass in the state.
+- Each node will receive the current state and overrides it.
+- Execution continues till we terminate, basically till we reach the END node.
+- invoke runs the graph asynchronously, waiting on each node to complete before moving to the next node.
+- The final state of the graph after being overridden by all the nodes get returned.
