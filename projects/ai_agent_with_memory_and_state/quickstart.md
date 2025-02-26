@@ -31,7 +31,7 @@
 - State is basically the object that we pass between different nodes and edges of our graph.
 - This object holds information that is used to communicate between the different nodes and edges.
 - It serves as the input/output schema for all nodes and edges.
-- Building A Simple AI Agent
+- Step 1: Building A Simple AI Agent
   - Building Graph State
   - Building Nodes Functions
   - Building Graph Nodes
@@ -43,3 +43,24 @@
 - Execution continues till we terminate, basically till we reach the END node.
 - invoke runs the graph asynchronously, waiting on each node to complete before moving to the next node.
 - The final state of the graph after being overridden by all the nodes get returned.
+- Step 2: Working with Chain
+- A chat message represents different type of conversations on exchanges in langchain.
+- What we type is a HumanMessage, what AI types is AIMessage.
+- We have SystemMessage, HumanMessage, AIMessage, Multimodality
+- SystemMessage - for content which should be passed to direct conversation.
+- HumanMessage - for content in the input from the user.
+- AIMessage - for content in the response from model.
+- Multimodality - for more information on multimodal content.
+- Chat Model: It is the llm that is fine tune to be able to have chat conversation.
+- Tools: Provides capability to llm to interact with an external world.
+- Here from the simple graph we saw that we traversed node 1, so at node 1 the message state become node 1. At node 2 message state become node 2. At node 3 message state become node 3.
+- So at the time of traversing new node the message state will get changed pointing to that particular node.
+- So it won't keep track of older things that happened.
+- Everytime the values are getting overwritten on each node.
+- This is not effective as agent doesn't know anything from previous experience.
+- So here the concept of memory comes in.
+- Here we can add the reducer.
+- Here if we add a new approach in which at the time of traversing any new node the information from that perticular node will get appended to the state.
+- In this way the agent will have all the information about each node.
+- But here the LLM has one limitation called context window limit. That means LLM can store upto a fixed limit of things. Not more than that.
+- 
