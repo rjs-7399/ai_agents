@@ -80,3 +80,11 @@
 - Huge usage of token due to each chat text saved in short term memory having to be based.
 - Overflow of context window of a LLM.
 - Can increase latency as the LLM has to work with a larger chat history from the short term memory.
+- When two persons are having conversation, and one person tells detailed information about a particular topic, does other person can remember the whole context in a single shot ? No.
+- That's why we need a summary of any topic to make it quickly understandable for other person.
+- Here Reducers are used to controll the size of messages. This is one of the technique to optimize the conversation.
+- Reducers: RemoveMessage, add_message
+- Short Term Memory Management Techniques
+  - Filtering, Trimming, Running summaries
+- Filtering messages means, we need only last X number of messages in memory, not more than that.
+- 
