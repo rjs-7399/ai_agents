@@ -90,3 +90,8 @@
 - In AI Agent memory management system we use tokens. Chats are having contents defined in the range of tokens.
 - So trimming technique is used to cut down the message based on tokens.
 - If a particular message exceeds the token limit then trim it down.
+- Advantages of running Text Summarization
+  - Reduces token usage.
+  - Avoids overflowing context window.
+  - Reduces overall latency as LLM has less to process.
+- 
