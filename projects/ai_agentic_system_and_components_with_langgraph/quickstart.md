@@ -87,4 +87,6 @@
 - Short Term Memory Management Techniques
   - Filtering, Trimming, Running summaries
 - Filtering messages means, we need only last X number of messages in memory, not more than that.
-- 
+- In AI Agent memory management system we use tokens. Chats are having contents defined in the range of tokens.
+- So trimming technique is used to cut down the message based on tokens.
+- If a particular message exceeds the token limit then trim it down.
