@@ -71,7 +71,12 @@
 - A special node called ToolNode that knows how to use different tools when needed.
 - A smart routing system that looks at each response and decides: "Does this need a tool ? If yes, let's use the tool and then continue the conversation"
 - "No tool needed ? Then let's wrap up the request."
-- Step 4: Implementation of memory
+- Step 4: Implementation of long term memory
 - Thread scoped memory or short term memory can be stored in Checkpointers or a checkpoint DB.
 - Long Term Memory can be stored in a vector DB or vector Store.
-- 
+- Step 5: Implementation of short term memory
+- The problem with short term memory is that, for a particular conversation thread AI Agent can remember a set of things only. He can't remember entire set of historical conversations.
+- To keep entire set of conversations in memory there are certain problems we face in it.
+- Huge usage of token due to each chat text saved in short term memory having to be based.
+- Overflow of context window of a LLM.
+- Can increase latency as the LLM has to work with a larger chat history from the short term memory.
