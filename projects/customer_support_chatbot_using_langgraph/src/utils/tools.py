@@ -16,8 +16,8 @@ load_dotenv()
 
 
 db_url = "https://storage.googleapis.com/benchmarks-artifacts/travel-db/travel2.sqlite"
-local_file = "conf/travel2.sqlite"
-backup_file = "conf/travel2.backup.sqlite"
+local_file = "travel2.sqlite"
+backup_file = "travel2.backup.sqlite"
 overwrite = False
 
 if overwrite or not os.path.exists(local_file):
@@ -116,3 +116,41 @@ def lookup_policy(query: str) -> str:
     docs = retriever.query(query, k=2)
     return "\n\n".join([doc["page_content"] for doc in docs])
 
+@tool
+def fetch_user_flight_information(config: RunnableConfig) -> list[dict]:
+    """Fetch all tickets for the user along with corresponding flight information and seat assignments.
+
+    Returns:
+        A list of dictionaries where each dictionary contains the ticket details,
+        associated flight details, and the seat assignments for each ticket belonging to the user.
+    """
+    configuration = config.get("configurable", {})
+    passenger_id = configuration.get("passenger_id", None)
+    if not passenger_id:
+        raise ValueError("No passenger ID configured.")
+
+    conn = sqlite3.connect(db)
+    cursor = conn.cursor()
+
+    query = """
+    SELECT 
+        t.ticket_no, t.book_ref,
+        f.flight_id, f.flight_no, f.departure_airport, f.arrival_airport, f.scheduled_departure, f.scheduled_arrival,
+        bp.seat_no, tf.fare_conditions
+    FROM 
+        tickets t
+        JOIN ticket_flights tf ON t.ticket_no = tf.ticket_no
+        JOIN flights f ON tf.flight_id = f.flight_id
+        JOIN boarding_passes bp ON bp.ticket_no = t.ticket_no AND bp.flight_id = f.flight_id
+    WHERE 
+        t.passenger_id = ?
+    """
+    cursor.execute(query, (passenger_id,))
+    rows = cursor.fetchall()
+    column_names = [column[0] for column in cursor.description]
+    results = [dict(zip(column_names, row)) for row in rows]
+
+    cursor.close()
+    conn.close()
+
+    return results
