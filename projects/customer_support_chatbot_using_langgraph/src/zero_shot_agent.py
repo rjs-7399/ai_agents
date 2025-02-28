@@ -100,3 +100,13 @@ all_tools = [
 ]
 
 assistant_runnable = assistant_prompt | llm.bind_tools(all_tools)
+
+
+builder = StateGraph(State)
+builder.add_node("assistant", Assistant(assistant_runnable))
+builder.add_node("tools", create_tool_node_with_fallback(all_tools))
+builder.add_edge(START, "assistant")
+builder.add_conditional_edges("assistant", tools_condition,)
+builder.add_edge("tools", "assistant")
+memory = MemorySaver()
+graph = builder.compile(checkpointer=memory)
