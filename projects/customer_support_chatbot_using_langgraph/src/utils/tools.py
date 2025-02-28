@@ -116,6 +116,7 @@ def lookup_policy(query: str) -> str:
     docs = retriever.query(query, k=2)
     return "\n\n".join([doc["page_content"] for doc in docs])
 
+
 @tool
 def fetch_user_flight_information(config: RunnableConfig) -> list[dict]:
     """Fetch all tickets for the user along with corresponding flight information and seat assignments.
@@ -145,11 +146,11 @@ def fetch_user_flight_information(config: RunnableConfig) -> list[dict]:
     WHERE 
         t.passenger_id = ?
     """
+
     cursor.execute(query, (passenger_id,))
     rows = cursor.fetchall()
     column_names = [column[0] for column in cursor.description]
     results = [dict(zip(column_names, row)) for row in rows]
-
     cursor.close()
     conn.close()
 
