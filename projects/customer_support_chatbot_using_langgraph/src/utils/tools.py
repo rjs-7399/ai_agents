@@ -717,3 +717,10 @@ def handle_tool_error(state: State) -> dict:
         )]
         for tc in tool_calls
     }
+
+
+def create_tool_node_with_fallback(tools: list) -> dict:
+    return ToolNode(tools).with_fallbacks(
+        [RunnableLambda(handle_tool_error)], exceptions_key="error"
+    )
+
