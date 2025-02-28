@@ -10,6 +10,12 @@ import pytz
 from langchain_core.runnables import RunnableConfig
 from datetime import date, datetime
 from typing import Optional, Union
+from langgraph.prebuilt import ToolNode
+from langchain_core.runnables import RunnableLambda
+from typing import Annotated
+from typing_extensions import TypedDict
+from langgraph.graph.message import AnyMessage, add_messages
+from langchain_core.messages import ToolMessage
 
 
 load_dotenv()
@@ -695,3 +701,19 @@ def cancel_excursion(recommendation_id: int) -> str:
     else:
         conn.close()
         return f"No trip recommendation found with ID {recommendation_id}."
+
+
+class State(TypedDict):
+    messages: Annotated[list[AnyMessage], add_messages]
+
+
+def handle_tool_error(state: State) -> dict:
+    error = state.get("error")
+    tool_calls = state["messages"][-1].tool_calls
+    return {
+        "messages": [ToolMessage(
+            content=f"Error: {repr(error)}\n Please fix your mistakes.",
+            tool_call_id=tc["id"],
+        )]
+        for tc in tool_calls
+    }
