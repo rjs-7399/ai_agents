@@ -32,3 +32,25 @@ from utils.tools import (
 
 class State(TypedDict):
     messages: Annotated[list[AnyMessage], add_messages]
+
+
+class Assistant:
+    def __init__(self, runnable: Runnable):
+        self.runnable = runnable
+
+    def __call__(self, state: State, config: RunnableConfig):
+        while True:
+            passenger_id = config.get("passenger_id", None)
+            state = {**State, "user_info": passenger_id}
+            result = self.runnable.invoke(state)
+
+            if (
+                not result.content
+                or isinstance(result.content, list)
+                and not result.content[0].get("text")
+            ):
+                messages = state["messages"] + [("user", "Resond with a real output.")]
+                state = {**state, "messages": messages}
+            else:
+                break
+        return {"messages": result}
