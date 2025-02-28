@@ -76,3 +76,25 @@ assistant_prompt = ChatPromptTemplate.from_messages(
         ("placeholder", "{messages}"),
     ]
 ).partial(time=datetime.now)
+
+
+all_tools = [
+    TavilySearchResults(max_results=1),
+    fetch_user_flight_information,
+    search_flights,
+    lookup_policy,
+    update_ticket_to_new_flight,
+    cancel_ticket,
+    search_car_rentals,
+    book_car_rental,
+    update_car_rental,
+    cancel_car_rental,
+    search_hotels,
+    book_hotel,
+    update_hotel,
+    cancel_hotel,
+    search_trip_recommendations,
+    book_excursion,
+    update_excursion,
+    cancel_excursion,
+]
