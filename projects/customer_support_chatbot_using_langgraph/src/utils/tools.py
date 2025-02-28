@@ -7,7 +7,6 @@ import os, shutil, sqlite3
 import pandas as pd
 import requests
 import pytz
-from langchain_core.runnables import RunnableConfig
 from datetime import date, datetime
 from typing import Optional, Union
 from langgraph.prebuilt import ToolNode
@@ -16,6 +15,7 @@ from typing import Annotated
 from typing_extensions import TypedDict
 from langgraph.graph.message import AnyMessage, add_messages
 from langchain_core.messages import ToolMessage
+from langchain_core.runnables import Runnable, RunnableConfig
 
 
 load_dotenv()
@@ -721,7 +721,7 @@ def handle_tool_error(state: State) -> dict:
 
 def create_tool_node_with_fallback(tools: list) -> dict:
     return ToolNode(tools).with_fallbacks(
-        [RunnableLambda(handle_tool_error)], exceptions_key="error"
+        [RunnableLambda(handle_tool_error)], exception_key="error"
     )
 
 
@@ -739,3 +739,5 @@ def _print_event(event: dict, _printed: set, max_length=1500):
                 msg_repr = msg_repr[:max_length] + "... (truncated)"
             print(msg_repr)
             _printed.add(message.id)
+
+
