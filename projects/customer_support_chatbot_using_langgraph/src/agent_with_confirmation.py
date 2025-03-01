@@ -92,3 +92,5 @@ all_tools = [
     update_excursion,
     cancel_excursion,
 ]
+
+assistant_runnable = assistant_prompt | llm.bind_tools(all_tools)
