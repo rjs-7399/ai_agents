@@ -157,3 +157,6 @@ hotel_booking_prompt = ChatPromptTemplate.from_messages(
     ]
 ).partial(time=datetime.now)
 
+
+hotel_booking_safe_tools = [search_hotels]
+hotel_booking_sensitive_tools = [book_hotel, update_hotel, cancel_hotel]
