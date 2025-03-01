@@ -114,15 +114,6 @@ def user_info(state: State):
     }
 
 
-builder = StateGraph(State)
-builder.add_node("fetch_user_info", user_info)
-builder.add_edge(START, "fetch_user_info")
-builder.add_node("assistant", Assistant(assistant_runnable))
-builder.add_node("safe_tools", create_tool_node_with_fallback(safe_tools))
-builder.add_node("sensitive_tools", create_tool_node_with_fallback(sensitive_tools))
-builder.add_edge("fetch_user_info", "assistant")
-
-
 def route_tools(state: State):
     next_node = tools_condition(state)
     if next_node == END:
@@ -132,3 +123,21 @@ def route_tools(state: State):
     if first_tool_call["name"] in sensitive_tool_names:
         return "sensitive_tools"
     return safe_tools
+
+
+builder = StateGraph(State)
+builder.add_node("fetch_user_info", user_info)
+builder.add_edge(START, "fetch_user_info")
+builder.add_node("assistant", Assistant(assistant_runnable))
+builder.add_node("safe_tools", create_tool_node_with_fallback(safe_tools))
+builder.add_node("sensitive_tools", create_tool_node_with_fallback(sensitive_tools))
+builder.add_edge("fetch_user_info", "assistant")
+builder.add_conditional_edges("assistant", route_tools, ["safe_tools", "sensitive_tools", END])
+builder.add_edge("safe_tools", "assistant")
+builder.add_edge("sensitive_tools", "assistant")
+
+memory = MemorySaver()
+graph = builder.compile(
+    checkpointer=memory,
+    interrupt_before=["sensitive_tools"],
+)
