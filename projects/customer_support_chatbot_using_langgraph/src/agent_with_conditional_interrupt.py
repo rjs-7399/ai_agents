@@ -1,6 +1,7 @@
 from typing import Annotated
 from langchain_openai import ChatOpenAI
 from langchain_community.tools.tavily_search import TavilySearchResults
+from langchain_core.messages import ToolMessage
 from langgraph.graph import END, StateGraph, START
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import Runnable, RunnableConfig
@@ -27,6 +28,8 @@ from utils.tools import (
     update_excursion,
     cancel_excursion,
 )
+import shutil, uuid
+from utils.tools import update_dates, db
 from typing import Literal
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import StateGraph
@@ -158,4 +161,17 @@ agent_with_conditional_interrupt_questions = [
     "interesting - i like the museums, what options are there? ",
     "OK great pick one and book it for my second day there.",
 ]
+
+from utils.tools import _print_event
+_printed = set()
+
+db = update_dates(db)
+thread_id = str(uuid.uuid4())
+
+config = {
+    "configurable": {
+        "passenger_id": "3442 587242",
+        "thread_id": thread_id,
+    }
+}
 
