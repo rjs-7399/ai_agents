@@ -8,10 +8,12 @@ from typing_extensions import TypedDict
 from langgraph.graph.message import AnyMessage, add_messages
 from langgraph.graph import END, StateGraph, START
 from langgraph.checkpoint.memory import MemorySaver
+from langchain_core.messages import ToolMessage
 from langgraph.graph import StateGraph
 from langgraph.prebuilt import tools_condition
 from datetime import datetime
 from utils.tools import create_tool_node_with_fallback
+from utils.tools import db, update_dates, _print_event
 from utils.tools import (
     fetch_user_flight_information,
     search_flights,
@@ -128,9 +130,9 @@ graph = builder.compile(
     interrupt_before=["tools"],
 )
 
-from utils.tools import db, update_dates
 
-zero_shot_agent_questions = [
+
+agent_with_confirmation_questions = [
     "Hi there, what time is my flight?",
     "Am i allowed to update my flight to something sooner? I want to leave later today.",
     "Update my flight to sometime next week then",
@@ -158,3 +160,38 @@ config = {
 }
 
 _printed = set()
+
+for question in agent_with_confirmation_questions:
+    events = graph.stream(
+        {"messages": ("user", question)}, config, stream_mode="values"
+    )
+    for event in events:
+        _print_event(event, _printed)
+    snapshot = graph.get_state(config)
+    while snapshot.next:
+        try:
+            user_input = input(
+                "Do you approve of the above actions ? Type 'y' to continue;"
+                "otherwise, explain your requested changed. \n\n"
+            )
+        except:
+            user_input = "y"
+        if user_input.strip() == "y":
+            result = graph.invoke(
+                None,
+                config,
+            )
+        else:
+            result = graph.invoke(
+                {
+                    "messages": [
+                        ToolMessage(
+                            tool_call_id=event["messages"][-1].tool_calls[0]["id"],
+                            content=f"API call denied by user. Reasoning: '{user_input}'. Continue assisting. accounting for the user's input.",
+
+                        )
+                    ]
+                },
+                config,
+            )
+        snapshot = graph.get_state(config)
