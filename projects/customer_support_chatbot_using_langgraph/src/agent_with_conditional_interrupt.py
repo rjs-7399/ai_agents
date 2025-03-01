@@ -28,3 +28,8 @@ class Assistant:
             else:
                 break
         return {"messages": result}
+
+llm = ChatOpenAI(
+    temperature=0.0,
+    model="gpt-4o-mini"
+)
