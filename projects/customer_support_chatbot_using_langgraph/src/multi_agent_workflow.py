@@ -204,3 +204,7 @@ car_rental_booking_sensitive_tools = [
     cancel_car_rental
 ]
 car_rental_booking_tools = car_rental_booking_safe_tools + car_rental_booking_sensitive_tools
+
+car_rental_booking_runnable = car_rental_booking_prompt | llm.bind_tools(
+    car_rental_booking_tools + [CompleteOrEscalate]
+)
