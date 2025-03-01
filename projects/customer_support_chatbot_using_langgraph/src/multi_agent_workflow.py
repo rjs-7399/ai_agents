@@ -243,3 +243,11 @@ excursion_booking_tools = excursion_booking_safe_tools + excursion_booking_sensi
 excursion_booking_runnable = excursion_booking_prompt | llm.bind_tools(
     excursion_booking_tools + [CompleteOrEscalate]
 )
+
+
+class ToFlightBookingAssistant(BaseModel):
+    """Transfer work to a specialized assistant to handle flight updates and cancelations."""
+
+    request: str = Field(
+        description="Any necessary follow-up questions the update flight assistant should clarify before proceeding."
+    )
