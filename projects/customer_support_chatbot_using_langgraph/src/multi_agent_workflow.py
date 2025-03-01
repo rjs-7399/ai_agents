@@ -196,3 +196,11 @@ car_rental_booking_prompt = ChatPromptTemplate.from_messages(
         ("placeholder", "{messages}"),
     ]
 ).partial(time=datetime.now)
+
+car_rental_booking_safe_tools = [search_car_rentals]
+car_rental_booking_sensitive_tools = [
+    book_car_rental,
+    update_car_rental,
+    cancel_car_rental
+]
+car_rental_booking_tools = car_rental_booking_safe_tools + car_rental_booking_sensitive_tools
