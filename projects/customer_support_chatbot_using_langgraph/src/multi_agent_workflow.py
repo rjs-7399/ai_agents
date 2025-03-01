@@ -130,7 +130,9 @@ flight_booking_sensitive_tools = [
 ]
 flight_booking_tools = flight_booking_safe_tools + flight_booking_sensitive_tools
 
-flight_booking_runnable = flight_booking_prompt | llm.bind_tools(flight_booking_tools)
+flight_booking_runnable = flight_booking_prompt | llm.bind_tools(
+    flight_booking_tools + [CompleteOrEscalate]
+)
 
 
 hotel_booking_prompt = ChatPromptTemplate.from_messages(
@@ -159,4 +161,13 @@ hotel_booking_prompt = ChatPromptTemplate.from_messages(
 
 
 hotel_booking_safe_tools = [search_hotels]
-hotel_booking_sensitive_tools = [book_hotel, update_hotel, cancel_hotel]
+hotel_booking_sensitive_tools = [
+    book_hotel,
+    update_hotel,
+    cancel_hotel
+]
+hotel_booking_tools = hotel_booking_safe_tools + hotel_booking_sensitive_tools
+
+hotel_booking_runnable = hotel_booking_prompt | llm.bind_tools(
+    hotel_booking_tools + [CompleteOrEscalate]
+)
