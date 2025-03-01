@@ -331,3 +331,10 @@ primary_assistant_prompt = ChatPromptTemplate.from_messages(
         ("placeholder", "{messages}"),
     ]
 ).partial(time=datetime.now)
+
+
+primary_assistant_safe_tools = [
+    TavilySearchResults(max_results=1),
+    search_flights,
+    lookup_policy,
+]
