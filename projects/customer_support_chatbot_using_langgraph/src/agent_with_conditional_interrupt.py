@@ -69,3 +69,32 @@ assistant_prompt = ChatPromptTemplate.from_messages(
     ]
 ).partial(time=datetime.now)
 
+safe_tools = [
+    TavilySearchResults(max_results=1),
+    fetch_user_flight_information,
+    search_flights,
+    lookup_policy,
+    search_car_rentals,
+    search_hotels,
+    search_trip_recommendations,
+]
+
+sensitive_tools = [
+    update_ticket_to_new_flight,
+    cancel_ticket,
+    book_car_rental,
+    update_car_rental,
+    cancel_car_rental,
+    book_hotel,
+    update_hotel,
+    cancel_hotel,
+    book_excursion,
+    update_excursion,
+    cancel_excursion,
+]
+
+sensitive_tool_names = {t.name for t in sensitive_tools}
+
+assistant_runnable = assistant_prompt | llm.bind_tools(
+    safe_tools + sensitive_tools
+)
