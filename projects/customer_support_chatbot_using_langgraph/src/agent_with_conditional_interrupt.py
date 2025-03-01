@@ -121,3 +121,14 @@ builder.add_node("assistant", Assistant(assistant_runnable))
 builder.add_node("safe_tools", create_tool_node_with_fallback(safe_tools))
 builder.add_node("sensitive_tools", create_tool_node_with_fallback(sensitive_tools))
 builder.add_edge("fetch_user_info", "assistant")
+
+
+def route_tools(state: State):
+    next_node = tools_condition(state)
+    if next_node == END:
+        return END
+    ai_message = state["messages"][-1]
+    first_tool_call = ai_message.tool_calls[0]
+    if first_tool_call["name"] in sensitive_tool_names:
+        return "sensitive_tools"
+    return safe_tools
