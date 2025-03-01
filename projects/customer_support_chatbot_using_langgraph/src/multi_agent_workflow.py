@@ -289,7 +289,7 @@ class ToHotelBookingAssistant(BaseModel):
         }
 
 
-class ToBookExcursion(BaseModel):
+class ToExcursionBookingAssistant(BaseModel):
     """Transfer work to a specialized assistant to handle trip recommendation and other excursion bookings."""
     location: str = Field(
         description="The location where the user wants to book the recommended trip."
@@ -338,3 +338,13 @@ primary_assistant_safe_tools = [
     search_flights,
     lookup_policy,
 ]
+
+primary_assistant_runnable = primary_assistant_prompt | llm.bind_tools(
+    primary_assistant_safe_tools
+    + [
+        ToFlightBookingAssistant,
+        ToCarRentalBookingAssistant,
+        ToHotelBookingAssistant,
+        ToExcursionBookingAssistant
+    ]
+)
