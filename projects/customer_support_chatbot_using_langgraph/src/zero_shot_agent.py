@@ -2,6 +2,8 @@ from langchain_core.runnables import Runnable, RunnableConfig
 from typing_extensions import TypedDict
 from typing import Annotated
 from datetime import date, datetime
+import uuid
+from utils.tools import update_dates, db, _print_event
 from langgraph.graph.message import AnyMessage, add_messages
 from langchain_openai import ChatOpenAI
 from langchain_community.tools.tavily_search import TavilySearchResults
@@ -112,7 +114,6 @@ builder.add_edge("tools", "assistant")
 memory = MemorySaver()
 graph = builder.compile(checkpointer=memory)
 
-import shutil, uuid
 
 zero_shot_agent_questions = [
     "Hi there, what time is my flight?",
@@ -131,8 +132,7 @@ zero_shot_agent_questions = [
     "OK great pick one and book it for my second day there.",
 ]
 
-import uuid
-from utils.tools import update_dates, db, _print_event
+
 
 db = update_dates(db)
 thread_id = str(uuid.uuid4())

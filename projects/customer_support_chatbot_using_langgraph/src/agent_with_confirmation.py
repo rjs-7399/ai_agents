@@ -5,7 +5,12 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import Runnable, RunnableConfig
 from typing_extensions import TypedDict
 from langgraph.graph.message import AnyMessage, add_messages
+from langgraph.graph import END, StateGraph, START
+from langgraph.checkpoint.memory import MemorySaver
+from langgraph.graph import StateGraph
+from langgraph.prebuilt import tools_condition
 from datetime import datetime
+from utils.tools import create_tool_node_with_fallback
 from utils.tools import (
     fetch_user_flight_information,
     search_flights,
@@ -94,3 +99,31 @@ all_tools = [
 ]
 
 assistant_runnable = assistant_prompt | llm.bind_tools(all_tools)
+
+builder = StateGraph(State)
+
+def user_info(state: State):
+    return {
+        "user_info": fetch_user_flight_information.invoke(
+            {}
+        )
+    }
+
+builder.add_node("fetch_user_info", user_info)
+builder.add_edge(START, "fetch_user_info")
+builder.add_node("assistant", Assistant(assistant_runnable))
+builder.add_node("tools", create_tool_node_with_fallback(all_tools))
+builder.add_edge("fetch_user_info", "assistant")
+builder.add_conditional_edges(
+    "assistant",
+    tools_condition,
+)
+builder.add_edge("tools", "assistant")
+
+memory = MemorySaver()
+
+graph = builder.compile(
+    checkpointer=memory,
+    interrupt_before=["tools"],
+)
+
