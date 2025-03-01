@@ -40,16 +40,17 @@ class Assistant:
 
     def __call__(self, state: State, config: RunnableConfig):
         while True:
-            passenger_id = config.get("passenger_id", None)
-            state = {**State, "user_info": passenger_id}
+            configuration = config.get("configurable", {})
+            passenger_id = configuration.get("passenger_id", None)
+            state = {**state, "user_info": passenger_id}
             result = self.runnable.invoke(state)
 
-            if (
+            if not result.tool_calls and (
                 not result.content
                 or isinstance(result.content, list)
                 and not result.content[0].get("text")
             ):
-                messages = state["messages"] + [("user", "Resond with a real output.")]
+                messages = state["messages"] + [("user", "Respond with a real output.")]
                 state = {**state, "messages": messages}
             else:
                 break
@@ -57,7 +58,7 @@ class Assistant:
 
 
 llm = ChatOpenAI(
-    temprature=0.0,
+    temperature=0.0,
     model="gpt-4o-mini"
 )
 
@@ -129,3 +130,25 @@ zero_shot_agent_questions = [
     "interesting - i like the museums, what options are there? ",
     "OK great pick one and book it for my second day there.",
 ]
+
+import uuid
+from utils.tools import update_dates, db, _print_event
+
+db = update_dates(db)
+thread_id = str(uuid.uuid4())
+
+config = {
+    "configurable": {
+        "passenger_id": "3442 587242",
+        "thread_id": thread_id,
+    }
+}
+
+
+_printed = set()
+for question in zero_shot_agent_questions:
+    events = graph.stream(
+        {"messages": ("user", question)}, config, stream_mode="values"
+    )
+    for event in events:
+        _print_event(event, _printed)
