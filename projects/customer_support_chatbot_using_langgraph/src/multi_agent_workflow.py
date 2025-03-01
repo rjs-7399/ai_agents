@@ -247,7 +247,26 @@ excursion_booking_runnable = excursion_booking_prompt | llm.bind_tools(
 
 class ToFlightBookingAssistant(BaseModel):
     """Transfer work to a specialized assistant to handle flight updates and cancelations."""
-
     request: str = Field(
         description="Any necessary follow-up questions the update flight assistant should clarify before proceeding."
     )
+
+
+class ToCarRentalBookingAssistant(BaseModel):
+    """Transfer work to a specialized assistant to handle car rental bookings."""
+    location: str = Field(
+        description="The location where the user wants to rent a car."
+    )
+    start_date: str = Field(description="The start date of the car rental.")
+    end_date: str = Field(description="The end date of the car rental.")
+    request: str = Field(description="Any additional information or requests from the user regarding the car rental.")
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "location": "BaseModel",
+                "start_date": "2025-01-01",
+                "end_date": "2025-01-05",
+                "request": "I need a compcat car with automatic transmission.",
+            }
+        }
