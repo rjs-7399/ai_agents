@@ -232,3 +232,14 @@ excursion_booking_prompt = ChatPromptTemplate.from_messages(
     ]
 ).partial(time=datetime.now)
 
+excursion_booking_safe_tools = [search_trip_recommendations]
+excursion_booking_sensitive_tools = [
+    book_excursion,
+    update_excursion,
+    cancel_excursion
+]
+excursion_booking_tools = excursion_booking_safe_tools + excursion_booking_sensitive_tools
+
+excursion_booking_runnable = excursion_booking_prompt | llm.bind_tools(
+    excursion_booking_tools + [CompleteOrEscalate]
+)
