@@ -147,3 +147,14 @@ zero_shot_agent_questions = [
     "OK great pick one and book it for my second day there.",
 ]
 
+db = update_dates(db)
+thread_id = str(uuid.uuid4())
+
+config = {
+    "configurable": {
+        "passenger_id": "3442 587242",
+        "thread_id": thread_id,
+    }
+}
+
+_printed = set()
