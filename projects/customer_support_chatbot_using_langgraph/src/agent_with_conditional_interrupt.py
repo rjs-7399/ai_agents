@@ -1,8 +1,10 @@
 from typing import Annotated
 from langchain_openai import ChatOpenAI
 from langchain_community.tools.tavily_search import TavilySearchResults
+from langgraph.graph import END, StateGraph, START
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import Runnable, RunnableConfig
+from utils.tools import create_tool_node_with_fallback
 from typing_extensions import TypedDict
 from langgraph.graph.message import AnyMessage, add_messages
 from datetime import datetime
@@ -102,3 +104,20 @@ sensitive_tool_names = {t.name for t in sensitive_tools}
 assistant_runnable = assistant_prompt | llm.bind_tools(
     safe_tools + sensitive_tools
 )
+
+
+def user_info(state: State):
+    return {
+        "user_info": fetch_user_flight_information.invoke(
+            {}
+        )
+    }
+
+
+builder = StateGraph(State)
+builder.add_node("fetch_user_info", user_info)
+builder.add_edge(START, "fetch_user_info")
+builder.add_node("assistant", Assistant(assistant_runnable))
+builder.add_node("safe_tools", create_tool_node_with_fallback(safe_tools))
+builder.add_node("sensitive_tools", create_tool_node_with_fallback(sensitive_tools))
+builder.add_edge("fetch_user_info", "assistant")
