@@ -273,7 +273,7 @@ class ToCarRentalBookingAssistant(BaseModel):
 
 
 class ToHotelBookingAssistant(BaseModel):
-    """Transfer work to a specialized assistant to handler hotel bookings."""
+    """Transfer work to a specialized assistant to handle the hotel bookings."""
     location: str = Field(
         description="The location where the user wants to book a hotel."
     )
@@ -290,5 +290,23 @@ class ToHotelBookingAssistant(BaseModel):
                 "checkin_date": "2023-08-15",
                 "checkout_date": "2023-08-20",
                 "request": "I prefer hotel near the city center with a room that has a view.",
+            }
+        }
+
+
+class ToBookExcursion(BaseModel):
+    """Transfer work to a specialized assistant to handle trip recommendation and other excursion bookings."""
+    location: str = Field(
+        description="The location where the user wants to book the recommended trip."
+    )
+    request: str = Field(
+        description="Any additional information or request from the user regarding the trip recommendation."
+    )
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "location": "Lucerne",
+                "request": "The user is interested in outdoor activities and scenic views.",
             }
         }
