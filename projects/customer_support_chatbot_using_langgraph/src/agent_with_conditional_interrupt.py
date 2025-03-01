@@ -125,7 +125,7 @@ def route_tools(state: State):
     first_tool_call = ai_message.tool_calls[0]
     if first_tool_call["name"] in sensitive_tool_names:
         return "sensitive_tools"
-    return safe_tools
+    return "safe_tools"
 
 
 builder = StateGraph(State)
@@ -177,7 +177,7 @@ config = {
 
 for question in agent_with_conditional_interrupt_questions:
     events = graph.stream(
-        {"messages": ("user", question)}, config,
+        {"messages": ("user", question)}, config, stream_mode="values"
     )
     for event in events:
         _print_event(event, _printed)
@@ -185,7 +185,7 @@ for question in agent_with_conditional_interrupt_questions:
     while snapshot.next:
         try:
             user_input = input(
-                "Do you approve of the above action ? Type 'y' to continue;"
+                "Do you approve of the above actions ? Type 'y' to continue;"
                 " otherwise, explain your requested changed.\n\n"
             )
         except:
