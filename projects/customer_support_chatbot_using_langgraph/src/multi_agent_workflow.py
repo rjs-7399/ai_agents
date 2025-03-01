@@ -4,6 +4,7 @@ from langgraph.graph.message import AnyMessage, add_messages
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import Runnable, RunnableConfig
 from pydantic import BaseModel, Field
+from langchain_openai import ChatOpenAI
 from datetime import datetime
 from utils.tools import (
     fetch_user_flight_information,
@@ -49,6 +50,12 @@ class State(TypedDict):
         ],
         updated_dialog_stack,
     ]
+
+
+llm = ChatOpenAI(
+    temperature=0.0,
+    model="gpt-4o-mini"
+)
 
 
 class Assistant:
@@ -122,4 +129,3 @@ flight_booking_sensitive_tools = [
     cancel_ticket
 ]
 flight_booking_tools = flight_booking_safe_tools + flight_booking_sensitive_tools
-
