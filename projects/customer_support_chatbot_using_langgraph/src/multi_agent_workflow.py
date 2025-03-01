@@ -129,3 +129,5 @@ flight_booking_sensitive_tools = [
     cancel_ticket
 ]
 flight_booking_tools = flight_booking_safe_tools + flight_booking_sensitive_tools
+
+flight_booking_runnable = flight_booking_prompt | llm.bind_tools(flight_booking_tools)
