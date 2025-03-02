@@ -635,3 +635,10 @@ graph = builder.compile(
 
 db = update_dates(db)
 thread_id = str(uuid.uuid4())
+
+config = {
+    "configurable": {
+        "passenger_id": "3442 587242",
+        "thread_id": thread_id,
+    }
+}
