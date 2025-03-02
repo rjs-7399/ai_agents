@@ -464,3 +464,17 @@ def route_book_car_rental(state: State):
     if all(tc["name"] in safe_tool_names for tc in tool_calls):
         return "book_car_rental_safe_tools"
     return "book_car_rental_sensitive_tools"
+
+
+builder.add_edge("book_car_rental_sensitive_tools", "book_car_rental")
+builder.add_edge("book_car_rental_safe_tools", "book_car_rental")
+builder.add_conditional_edges(
+    "book_car_rental",
+    route_book_car_rental,
+    [
+        "book_car_rental_safe_tools",
+        "book_car_rental_sensitive_tools",
+        "leave_skill",
+        END,
+    ],
+)
