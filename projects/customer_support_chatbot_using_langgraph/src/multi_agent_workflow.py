@@ -342,14 +342,14 @@ primary_assistant_prompt = ChatPromptTemplate.from_messages(
 ).partial(time=datetime.now)
 
 
-primary_assistant_safe_tools = [
+primary_assistant_tools = [
     TavilySearchResults(max_results=1),
     search_flights,
     lookup_policy,
 ]
 
 primary_assistant_runnable = primary_assistant_prompt | llm.bind_tools(
-    primary_assistant_safe_tools
+    primary_assistant_tools
     + [
         ToFlightBookingAssistant,
         ToCarRentalBookingAssistant,
@@ -554,3 +554,8 @@ builder.add_conditional_edges(
     route_book_excursion,
     ["book_excursion_safe_tools", "book_excursion_sensitive_tools", "leave_skill", END],
 )
+
+
+builder.add_node("primary_assistant", Assistant(primary_assistant_runnable))
+builder.add_node(
+    "primary_assistant_tools", create_tool_node_with_fallback(primary_assistant_tools))
