@@ -398,6 +398,7 @@ builder.add_edge("entry_update_flight","update_flight")
 builder.add_node("flight_booking_sensitive_tools", create_tool_node_with_fallback(flight_booking_sensitive_tools))
 builder.add_node("flight_booking_safe_tools", create_tool_node_with_fallback(flight_booking_safe_tools))
 
+
 def route_update_flight(state: State):
     route = tools_condition(state)
     if route == END:
@@ -410,4 +411,23 @@ def route_update_flight(state: State):
     if all(tc["name"] in safe_tool_names for tc in tool_calls):
         return "flight_booking_safe_tools"
     return "flight_booking_sensitive_tools"
+
+
+def pop_dialogue_state(state: State):
+    """Pop Tthe dialogue stack and return to the main assistant.
+
+    This lets the full graph explicitly track the dialogue flow and delegate the control to specific sub-graphs.
+    """
+    messages = []
+    if state["messages"][-1].tool_calls:
+        messages.append(
+            ToolMessage(
+                content="Resuming dialogue with the host assistant. Please reflect on the past conversation and assist the user as needed.",
+                tool_call_id=state["messages"][-1].tool_calls[0]["id"],
+            )
+        )
+    return {
+        "dialogue_state": "pop",
+        "messages": messages,
+    }
 
