@@ -434,3 +434,19 @@ def pop_dialogue_state(state: State):
 
 builder.add_node("leave_skill", pop_dialogue_state)
 builder.add_edge("leave_skill", "primary_assistant")
+
+
+builder.add_node(
+    "enter_book_car_rental",
+    create_entry_node("Car Rental Assistant", "book_car_rental"),
+)
+builder.add_node("book_car_rental", Assistant(car_rental_booking_runnable))
+builder.add_edge("enter_book_car_rental", "book_car_rental")
+builder.add_node(
+    "book_car_rental_safe_tools",
+    create_tool_node_with_fallback(car_rental_booking_safe_tools),
+)
+builder.add_node(
+    "book_car_rental_sensitive_tools",
+    create_tool_node_with_fallback(car_rental_booking_sensitive_tools),
+)
