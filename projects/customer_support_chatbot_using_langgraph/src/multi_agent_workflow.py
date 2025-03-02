@@ -4,9 +4,14 @@ from langgraph.graph.message import AnyMessage, add_messages
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import Runnable, RunnableConfig
 from langchain_community.tools.tavily_search import TavilySearchResults
+from utils.tools import create_tool_node_with_fallback
 from langgraph.graph import END, StateGraph, START
 from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
+from typing import Literal
+from langgraph.checkpoint.memory import MemorySaver
+from langgraph.graph import StateGraph
+from langgraph.prebuilt import tools_condition
 from datetime import datetime
 from utils.tools import (
     fetch_user_flight_information,
@@ -52,6 +57,12 @@ class State(TypedDict):
         ],
         updated_dialog_stack,
     ]
+
+
+llm = ChatOpenAI(
+    temperature=0.0,
+    model="gpt-4o-mini"
+)
 
 
 class Assistant:
@@ -307,10 +318,7 @@ class ToExcursionBookingAssistant(BaseModel):
             }
         }
 
-llm = ChatOpenAI(
-    temperature=0.0,
-    model="gpt-4o-mini"
-)
+
 
 
 primary_assistant_prompt = ChatPromptTemplate.from_messages(
@@ -371,10 +379,6 @@ def create_entry_node(assistant_name: str, new_dialogue_state: str) -> Callable:
         }
     return entry_node
 
-from typing import Literal
-from langgraph.checkpoint.memory import MemorySaver
-from langgraph.graph import StateGraph
-from langgraph.prebuilt import tools_condition
 
 def user_info(state: State):
     return {
@@ -382,3 +386,8 @@ def user_info(state: State):
             {}
         )
     }
+
+
+builder = StateGraph(State)
+builder.add_node("fetch_user_info", user_info)
+builder.add_edge(START, "fetch_user_info")
