@@ -394,9 +394,9 @@ builder = StateGraph(State)
 builder.add_node("fetch_user_info", user_info)
 builder.add_edge(START, "fetch_user_info")
 
-builder.add_node("entry_update_flight", create_entry_node("Flight Updates & Booking Assistant", "update_flight"),)
+builder.add_node("enter_update_flight", create_entry_node("Flight Updates & Booking Assistant", "update_flight"),)
 builder.add_node("update_flight", Assistant(flight_booking_runnable))
-builder.add_edge("entry_update_flight","update_flight")
+builder.add_edge("enter_update_flight","update_flight")
 builder.add_node("flight_booking_sensitive_tools", create_tool_node_with_fallback(flight_booking_sensitive_tools))
 builder.add_node("flight_booking_safe_tools", create_tool_node_with_fallback(flight_booking_safe_tools))
 
@@ -524,7 +524,7 @@ builder.add_edge("book_hotel_safe_tools", "book_hotel")
 builder.add_conditional_edges(
     "book_hotel",
     route_book_hotel,
-    ["leave_skill", "book_hotel_safe_tool", "book_hotel_sensitive_tools", END],
+    ["leave_skill", "book_hotel_safe_tools", "book_hotel_sensitive_tools", END],
 )
 
 
@@ -675,15 +675,15 @@ for question in multi_agent_workflow_questions:
     while snapshot.next:
         try:
             user_input = input(
-                "Do you approve the above actions ? Type 'y' to continue;"
-                " otherwise, explain your requested chaged.\n\n"
+                "Do you approve of the above actions ? Type 'y' to continue;"
+                " otherwise, explain your requested changed.\n\n"
             )
         except:
             user_input = "y"
         if user_input.strip() == "y":
             result = graph.invoke(
                 None,
-                config
+                config,
             )
         else:
             result = graph.invoke(
@@ -695,6 +695,6 @@ for question in multi_agent_workflow_questions:
                         )
                     ]
                 },
-                config
+                config,
             )
         snapshot = graph.get_state(config)
