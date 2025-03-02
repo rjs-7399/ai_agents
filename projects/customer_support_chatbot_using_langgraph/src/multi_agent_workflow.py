@@ -4,6 +4,7 @@ from langgraph.graph.message import AnyMessage, add_messages
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import Runnable, RunnableConfig
 from langchain_community.tools.tavily_search import TavilySearchResults
+from langgraph.graph import END, StateGraph, START
 from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
 from datetime import datetime
@@ -369,3 +370,15 @@ def create_entry_node(assistant_name: str, new_dialogue_state: str) -> Callable:
             "dialog_state": new_dialogue_state,
         }
     return entry_node
+
+from typing import Literal
+from langgraph.checkpoint.memory import MemorySaver
+from langgraph.graph import StateGraph
+from langgraph.prebuilt import tools_condition
+
+def user_info(state: State):
+    return {
+        "user_info": fetch_user_flight_information.invoke(
+            {}
+        )
+    }
