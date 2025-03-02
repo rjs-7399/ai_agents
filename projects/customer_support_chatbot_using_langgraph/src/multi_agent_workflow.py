@@ -45,10 +45,10 @@ def updated_dialog_stack(left: list[str], right: Optional[str]) -> list[str]:
 class State(TypedDict):
     messages: Annotated[list[AnyMessage], add_messages]
     user_info: str
-    dialog_state: Annotated[
+    dialogue_state: Annotated[
         list[
             Literal[
-                "assistant",
+                "primary_assistant",
                 "update_flight",
                 "book_car_rental",
                 "book_hotel",
@@ -592,3 +592,18 @@ builder.add_conditional_edges(
     ],
 )
 builder.add_edge("primary_assistant_tools", "primary_assistant")
+
+
+def route_to_worflow(
+    state: State
+) -> Literal[
+    "primary_assistant",
+    "update_flight",
+    "book_car_rental",
+    "book_hotel",
+    "book_excursion",
+]:
+    dialogue_state = state.get("dialogue_state")
+    if not dialogue_state:
+        return "primary_assistant"
+    return dialogue_state[-1]
