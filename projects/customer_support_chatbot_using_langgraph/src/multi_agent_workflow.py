@@ -478,3 +478,18 @@ builder.add_conditional_edges(
         END,
     ],
 )
+
+
+builder.add_node(
+    "enter_book_hotel", create_entry_node("Hotel Booking Assistant", "book_hotel")
+)
+builder.add_node("book_hotel", Assistant(hotel_booking_runnable))
+builder.add_edge("enter_book_hotel", "book_hotel")
+builder.add_node(
+    "book_hotel_safe_tools",
+    create_tool_node_with_fallback(hotel_booking_safe_tools)
+)
+builder.add_node(
+    "book_hotel_sensitive_tools",
+    create_tool_node_with_fallback(hotel_booking_sensitive_tools)
+)
