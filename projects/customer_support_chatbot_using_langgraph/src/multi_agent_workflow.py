@@ -391,3 +391,9 @@ def user_info(state: State):
 builder = StateGraph(State)
 builder.add_node("fetch_user_info", user_info)
 builder.add_edge(START, "fetch_user_info")
+
+builder.add_node("entry_update_flight", create_entry_node("Flight Updates & Booking Assistant", "update_flight"),)
+builder.add_node("update_flight", Assistant(flight_booking_runnable))
+builder.add_edge("entry_update_flight","update_flight")
+builder.add_node("update_flight_sensitive_tools", create_tool_node_with_fallback(flight_booking_sensitive_tools))
+builder.add_node("update_flight_safe_tools", create_tool_node_with_fallback(flight_booking_safe_tools))
