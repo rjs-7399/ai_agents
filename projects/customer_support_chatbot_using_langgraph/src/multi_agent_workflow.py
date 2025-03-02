@@ -516,3 +516,19 @@ builder.add_conditional_edges(
     route_book_hotel,
     ["leave_skill", "book_hotel_safe_tool", "book_hotel_sensitive_tools", END],
 )
+
+
+builder.add_node(
+    "enter_book_excursion",
+    create_entry_node("Trip Recommendation Assistant", "book_excursion"),
+)
+builder.add_node("book_excursion", Assistant(excursion_booking_runnable))
+builder.add_edge("enter_book_excursion", "book_excursion")
+builder.add_node(
+    "book_excursion_safe_tools",
+    create_tool_node_with_fallback(excursion_booking_safe_tools)
+)
+builder.add_node(
+    "book_excursion_sensitive_tools",
+    create_tool_node_with_fallback(excursion_booking_sensitive_tools)
+)
