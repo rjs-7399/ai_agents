@@ -412,6 +412,14 @@ def route_update_flight(state: State):
         return "flight_booking_safe_tools"
     return "flight_booking_sensitive_tools"
 
+builder.add_edge("flight_booking_sensitive_tools", "update_flight")
+builder.add_edge("flight_booking_safe_tools", "update_flight")
+builder.add_conditional_edges(
+    "update_flight",
+    route_update_flight,
+    ["flight_booking_sensitive_tools", "flight_booking_safe_tools", "leave_skill", END],
+)
+
 
 def pop_dialogue_state(state: State):
     """Pop Tthe dialogue stack and return to the main assistant.
@@ -607,3 +615,18 @@ def route_to_worflow(
     if not dialogue_state:
         return "primary_assistant"
     return dialogue_state[-1]
+
+
+builder.add_conditional_edges("fetch_user_info", route_to_worflow)
+
+memory = MemorySaver()
+
+graph = builder.compile(
+    checkpointer=memory,
+    interrupt_before=[
+        "flight_booking_sensitive_tools",
+        "book_car_rental_sensitive_tools",
+        "book_hotel_sensitive_tools",
+        "book_excursion_sensitive_tools"
+    ]
+)
