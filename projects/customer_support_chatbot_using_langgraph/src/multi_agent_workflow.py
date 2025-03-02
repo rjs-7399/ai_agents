@@ -12,6 +12,8 @@ from typing import Literal
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import StateGraph
 from langgraph.prebuilt import tools_condition
+import shutil, uuid
+from utils.tools import update_dates, db
 from datetime import datetime
 from utils.tools import (
     fetch_user_flight_information,
@@ -630,3 +632,6 @@ graph = builder.compile(
         "book_excursion_sensitive_tools"
     ]
 )
+
+db = update_dates(db)
+thread_id = str(uuid.uuid4())
