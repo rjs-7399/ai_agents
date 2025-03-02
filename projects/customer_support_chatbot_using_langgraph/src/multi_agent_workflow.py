@@ -395,5 +395,19 @@ builder.add_edge(START, "fetch_user_info")
 builder.add_node("entry_update_flight", create_entry_node("Flight Updates & Booking Assistant", "update_flight"),)
 builder.add_node("update_flight", Assistant(flight_booking_runnable))
 builder.add_edge("entry_update_flight","update_flight")
-builder.add_node("update_flight_sensitive_tools", create_tool_node_with_fallback(flight_booking_sensitive_tools))
-builder.add_node("update_flight_safe_tools", create_tool_node_with_fallback(flight_booking_safe_tools))
+builder.add_node("flight_booking_sensitive_tools", create_tool_node_with_fallback(flight_booking_sensitive_tools))
+builder.add_node("flight_booking_safe_tools", create_tool_node_with_fallback(flight_booking_safe_tools))
+
+def route_update_flight(state: State):
+    route = tools_condition(state)
+    if route == END:
+        return END
+    tool_calls = state["messages"][-1].tool_calls
+    did_cancel = any(tc["name"] == CompleteOrEscalate.__name__ for tc in tool_calls)
+    if did_cancel:
+        return "leave_skill"
+    safe_tool_names = [tool.name for tool in flight_booking_safe_tools]
+    if all(tc["name"] in safe_tool_names for tc in tool_calls):
+        return "flight_booking_safe_tools"
+    return "flight_booking_sensitive_tools"
+
