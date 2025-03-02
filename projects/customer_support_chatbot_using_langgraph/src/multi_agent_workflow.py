@@ -431,3 +431,6 @@ def pop_dialogue_state(state: State):
         "messages": messages,
     }
 
+
+builder.add_node("leave_skill", pop_dialogue_state)
+builder.add_edge("leave_skill", "primary_assistant")
