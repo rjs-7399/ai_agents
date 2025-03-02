@@ -577,3 +577,18 @@ def route_primary_assistant(state: State):
             return "enter_book_excursion"
         return "primary_assistant_tools"
     raise ValueError("Invalid route")
+
+
+builder.add_conditional_edges(
+    "primary_assistant",
+    route_primary_assistant,
+    [
+        "enter_update_flight",
+        "enter_book_car_rental",
+        "enter_book_hotel",
+        "enter_book_excursion",
+        "primary_assistant_tools",
+        END,
+    ],
+)
+builder.add_edge("primary_assistant_tools", "primary_assistant")
