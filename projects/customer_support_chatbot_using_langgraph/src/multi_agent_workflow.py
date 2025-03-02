@@ -546,3 +546,11 @@ def route_book_excursion(state: State):
     if all(tc["name"] in tool_names for tc in tool_calls):
         return "book_excursion_safe_tools"
     return "book_excursion_sensitive_tools"
+
+builder.add_edge("book_excursion_sensitive_tools", "book_excursion")
+builder.add_edge("book_excursion_safe_tools", "book_excursion")
+builder.add_conditional_edges(
+    "book_excursion",
+    route_book_excursion,
+    ["book_excursion_safe_tools", "book_excursion_sensitive_tools", "leave_skill", END],
+)
