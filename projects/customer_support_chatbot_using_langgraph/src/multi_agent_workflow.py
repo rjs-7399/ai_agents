@@ -559,3 +559,21 @@ builder.add_conditional_edges(
 builder.add_node("primary_assistant", Assistant(primary_assistant_runnable))
 builder.add_node(
     "primary_assistant_tools", create_tool_node_with_fallback(primary_assistant_tools))
+
+
+def route_primary_assistant(state: State):
+    route = tools_condition(state)
+    if route == END:
+        return END
+    tool_calls = state["messages"][-1].tool_calls
+    if tool_calls:
+        if tool_calls[0]["name"] == ToFlightBookingAssistant.__name__:
+            return "enter_update_flight"
+        elif tool_calls[0]["name"] == ToCarRentalBookingAssistant.__name__:
+            return "enter_book_car_rental"
+        elif tool_calls[0]["name"] == ToHotelBookingAssistant.__name__:
+            return "enter_book_hotel"
+        elif tool_calls[0]["name"] == ToExcursionBookingAssistant.__name__:
+            return "enter_book_excursion"
+        return "primary_assistant_tools"
+    raise ValueError("Invalid route")
