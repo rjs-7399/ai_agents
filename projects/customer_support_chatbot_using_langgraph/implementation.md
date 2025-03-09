@@ -629,7 +629,217 @@ while snapshot.next:
 
 ### Example Conversation
 
-[PLACEHOLDER FOR AI AGENT WITH CONFIRMATION CONVERSATION SCREENSHOT]
+<details><summary> Click to see AI Agent with Confirmation conversation </summary>
+<p>
+
+``` 
+================================ Human Message =================================
+
+Hi there, what time is my flight?
+================================== Ai Message ==================================
+
+Your flight LX0112 is scheduled to depart from CDG (Charles de Gaulle Airport) at 15:29 (local time) and is expected to arrive at BSL (EuroAirport Basel-Mulhouse-Freiburg) at 16:59 (local time). 
+
+Please note that the current time is 15:25, so your flight is about to depart in a few minutes.
+================================ Human Message =================================
+
+Am i allowed to update my flight to something sooner? I want to leave later today.
+================================== Ai Message ==================================
+Tool Calls:
+  lookup_policy (call_E72qa0PBWVHkhpOXQzEp459b)
+ Call ID: call_E72qa0PBWVHkhpOXQzEp459b
+  Args:
+    query: update flight to an earlier time
+Do you approve of the above actions ? Type 'y' to continue;otherwise, explain your requested changed. 
+
+y
+================================ Human Message =================================
+
+Update my flight to sometime next week then
+================================== Ai Message ==================================
+Tool Calls:
+  search_flights (call_xPfHiRrDMMEZc2crb0GNlJPY)
+ Call ID: call_xPfHiRrDMMEZc2crb0GNlJPY
+  Args:
+    departure_airport: CDG
+    arrival_airport: BSL
+    start_time: 2025-03-08T00:00:00
+    end_time: 2025-03-15T23:59:59
+    limit: 5
+Do you approve of the above actions ? Type 'y' to continue;otherwise, explain your requested changed. 
+
+y
+Do you approve of the above actions ? Type 'y' to continue;otherwise, explain your requested changed. 
+
+y
+================================ Human Message =================================
+
+The next available option is great
+================================== Ai Message ==================================
+
+Great! Just to confirm, you are now booked on flight LX0112, departing from CDG on March 9, 2025, at 15:29. If you have any other requests or need further assistance, feel free to let me know! Safe travels!
+================================ Human Message =================================
+
+what about lodging and transportation?
+================================== Ai Message ==================================
+
+Would you like me to search for hotels and car rentals in Basel for your stay next week? If so, please provide me with your check-in and check-out dates, as well as any preferences you may have regarding hotel type or car rental options.
+================================ Human Message =================================
+
+Yeah i think i'd like an affordable hotel for my week-long stay (7 days). And I'll want to rent a car.
+================================== Ai Message ==================================
+Tool Calls:
+  search_hotels (call_5Dy81LfnJMztJBwRIBr5uCUD)
+ Call ID: call_5Dy81LfnJMztJBwRIBr5uCUD
+  Args:
+    location: Basel
+    price_tier: Midscale
+    checkin_date: 2025-03-09
+    checkout_date: 2025-03-16
+  search_car_rentals (call_10j2qUAQr9cM7pw1fYuDd7Ob)
+ Call ID: call_10j2qUAQr9cM7pw1fYuDd7Ob
+  Args:
+    location: Basel
+    price_tier: Affordable
+    start_date: 2025-03-09
+    end_date: 2025-03-16
+Do you approve of the above actions ? Type 'y' to continue;otherwise, explain your requested changed. 
+
+y
+================================ Human Message =================================
+
+OK could you place a reservation for your recommended hotel? It sounds nice.
+================================== Ai Message ==================================
+Tool Calls:
+  book_hotel (call_RiGWubrdzWZcgXJn1ayYVe6x)
+ Call ID: call_RiGWubrdzWZcgXJn1ayYVe6x
+  Args:
+    hotel_id: 1
+Do you approve of the above actions ? Type 'y' to continue;otherwise, explain your requested changed. 
+
+y
+================================ Human Message =================================
+
+yes go ahead and book anything that's moderate expense and has availability.
+================================== Ai Message ==================================
+Tool Calls:
+  book_car_rental (call_M1CCUXICp3eNy85RYWXqSmLF)
+ Call ID: call_M1CCUXICp3eNy85RYWXqSmLF
+  Args:
+    rental_id: 1
+Do you approve of the above actions ? Type 'y' to continue;otherwise, explain your requested changed. 
+
+y
+================================ Human Message =================================
+
+Now for a car, what are my options?
+================================== Ai Message ==================================
+
+Here are the car rental options available for your stay in Basel from March 9 to March 16, 2025:
+
+1. **Europcar**
+   - **Price Tier**: Economy
+   - **Location**: Basel
+   - **Start Date**: March 9, 2025
+   - **End Date**: March 16, 2025
+
+2. **Avis**
+   - **Price Tier**: Luxury
+   - **Location**: Basel
+   - **Start Date**: March 9, 2025
+   - **End Date**: March 16, 2025
+
+3. **Enterprise**
+   - **Price Tier**: Premium
+   - **Location**: Basel
+   - **Start Date**: March 9, 2025
+   - **End Date**: March 16, 2025
+
+4. **Thrifty**
+   - **Price Tier**: Midsize
+   - **Location**: Basel
+   - **Start Date**: March 9, 2025
+   - **End Date**: March 16, 2025
+
+Since you mentioned wanting a moderate expense option, the **Europcar** (Economy) and **Thrifty** (Midsize) options would be the most suitable. 
+
+Would you like to proceed with one of these options, or do you need more information about them?
+================================ Human Message =================================
+
+Awesome let's just get the cheapest option. Go ahead and book for 7 days
+================================== Ai Message ==================================
+Tool Calls:
+  book_car_rental (call_jupMWS7L5i4c5kN2JnOpL7XA)
+ Call ID: call_jupMWS7L5i4c5kN2JnOpL7XA
+  Args:
+    rental_id: 1
+Do you approve of the above actions ? Type 'y' to continue;otherwise, explain your requested changed. 
+
+y
+================================ Human Message =================================
+
+Cool so now what recommendations do you have on excursions?
+================================== Ai Message ==================================
+Tool Calls:
+  search_trip_recommendations (call_frAVdnBfARSFdCkos5XZqluF)
+ Call ID: call_frAVdnBfARSFdCkos5XZqluF
+  Args:
+    location: Basel
+Do you approve of the above actions ? Type 'y' to continue;otherwise, explain your requested changed. 
+
+y
+================================ Human Message =================================
+
+Are they available while I'm there?
+================================== Ai Message ==================================
+Tool Calls:
+  search_trip_recommendations (call_KElinnYmPuLEa3c0pYynhZmJ)
+ Call ID: call_KElinnYmPuLEa3c0pYynhZmJ
+  Args:
+    location: Basel
+    keywords: Basel Minster
+  search_trip_recommendations (call_YkGhFkIaQVj80mfCZLVLbsXr)
+ Call ID: call_YkGhFkIaQVj80mfCZLVLbsXr
+  Args:
+    location: Basel
+    keywords: Kunstmuseum Basel
+  search_trip_recommendations (call_FGel16wPIk57mtXEjXDdwEOf)
+ Call ID: call_FGel16wPIk57mtXEjXDdwEOf
+  Args:
+    location: Basel
+    keywords: Basel Zoo
+Do you approve of the above actions ? Type 'y' to continue;otherwise, explain your requested changed. 
+
+y
+================================ Human Message =================================
+
+interesting - i like the museums, what options are there? 
+================================== Ai Message ==================================
+Tool Calls:
+  search_trip_recommendations (call_nIux5mNVhuFRB1wwM5jNxtH2)
+ Call ID: call_nIux5mNVhuFRB1wwM5jNxtH2
+  Args:
+    location: Basel
+    keywords: museum
+Do you approve of the above actions ? Type 'y' to continue;otherwise, explain your requested changed. 
+
+y
+================================ Human Message =================================
+
+OK great pick one and book it for my second day there.
+================================== Ai Message ==================================
+Tool Calls:
+  book_excursion (call_KpN5B7HfQaOex7t2wVN01rvf)
+ Call ID: call_KpN5B7HfQaOex7t2wVN01rvf
+  Args:
+    recommendation_id: 2
+Do you approve of the above actions ? Type 'y' to continue;otherwise, explain your requested changed. 
+
+y
+```
+
+</p>
+</details>
 
 In this conversation, you can see that the user must explicitly approve each action, including simple searches. While safe, this can become tedious for complex tasks requiring multiple tool calls.
 
