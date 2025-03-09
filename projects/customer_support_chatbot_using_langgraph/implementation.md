@@ -197,6 +197,8 @@ In this conversation, you can see that the user must explicitly approve each act
 
 ## AI Agent with Conditional Interrupt
 
+![AI Agent With Conditional Interrupt](project_snapshots/part_3_ai_agent_with_conditional_interrupt.jpg)
+
 The Conditional Interrupt architecture represents a more balanced approach - dividing tools into "safe" and "sensitive" categories with different handling for each.
 
 ### Architecture
