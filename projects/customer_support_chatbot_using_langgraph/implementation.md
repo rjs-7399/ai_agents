@@ -11,6 +11,7 @@ This implementation demonstrates how AI Agents can replace traditional customer 
 
 - [Why AI Agents](#why-ai-agents)
   - [Traditional Chatbots vs. AI Agents](#traditional-chatbots-vs-ai-agents)
+  - [LLMs: The Game Changer](#llms-the-game-changer)
   - [Architecture Evolution](#architecture-evolution)
 - [Zero-shot AI Agent](#zero-shot-ai-agent)
   - [Architecture](#architecture)
@@ -59,11 +60,11 @@ AI Agents overcome these limitations by combining LLMs with:
 - **Feedback Loops**: Learning from outcomes to improve future responses
 
 
-## LLMs: The Game Changer
+### LLMs: The Game Changer
 
 The introduction of Large Language Models (LLMs) like GPT revolutionized conversational AI in several key ways:
 
-### First Generation: Basic LLM Chatbots (e.g., ChatGPT)
+#### First Generation: Basic LLM Chatbots (e.g., ChatGPT)
 
 - Deep natural language understanding that can interpret complex requests
 - Human-like responses that flow naturally in conversation
@@ -79,7 +80,8 @@ However, these basic LLM applications still had critical limitations:
 
 A stand-alone LLM like ChatGPT can discuss flight options in theory, but cannot actually check current availability, access a user's booking details, or make reservations in real-world systems.
 
-### Second Generation: AI Agents
+#### Second Generation: AI Agents
+
 AI Agents overcome these limitations by combining LLMs with:
 
 - Tools Integration: Ability to call external functions, APIs, and databases
