@@ -125,6 +125,8 @@ As shown in the conversation above, the agent can directly make flight changes, 
 
 ## AI Agent with Confirmation
 
+![AI Agent with Confirmation](project_snapshots/part_2_ai_agent_with_confirmation.jpg)
+
 The AI Agent with Confirmation architecture adds a critical safety layer by requiring human approval before executing any tool action.
 
 ### Architecture
