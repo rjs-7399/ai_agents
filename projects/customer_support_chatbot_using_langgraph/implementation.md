@@ -277,6 +277,8 @@ In this conversation, the agent can directly search for information but requires
 
 ## Supervisor-Worker AI Agent Architecture
 
+![Multi AI Agent Workflow](project_snapshots/part_4_multi_ai_agent_workflow.jpg)
+
 The most advanced architecture implements a multi-agent system with specialized workers overseen by a supervisor agent.
 
 ### Architecture
