@@ -74,6 +74,8 @@ Each of these architectures builds upon the previous one, adding sophistication,
 
 ## Zero-shot AI Agent
 
+![zero shot AI Agent](project_snapshots/part_1_zero_shot_ai_assistant.jpg)
+
 The Zero-shot AI Agent represents the most basic implementation of an AI Agent system. It directly connects an LLM to a set of tools, allowing it to choose which tool to use based solely on its reasoning.
 
 ### Architecture
