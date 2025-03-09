@@ -1,5 +1,43 @@
 # AI Agent Evolution for Travel Assistance
 
+## Overview
+
+The Travel Booking AI Agent is a sophisticated system designed to assist users with all aspects of travel planning and management. This AI Agent can help users search for flights, manage bookings, find accommodations, arrange car rentals, and discover local excursions. The system interacts with users through natural language conversation, understanding complex requests and taking appropriate actions on the user's behalf.
+
+This implementation demonstrates how AI Agents can replace traditional customer service representatives in the travel industry by providing 24/7 assistance, handling routine tasks automatically, and seamlessly connecting users to the right specialized services. The Travel Booking AI Agent can access real-time flight information, company policies, and customer bookings to provide personalized assistance tailored to each user's unique situation.
+
+
+## Table of Contents
+
+- [Why AI Agents](#why-ai-agents)
+  - [Traditional Chatbots vs. AI Agents](#traditional-chatbots-vs-ai-agents)
+  - [Architecture Evolution](#architecture-evolution)
+- [Zero-shot AI Agent](#zero-shot-ai-agent)
+  - [Architecture](#architecture)
+  - [Implementation Details](#implementation-details)
+  - [Advantages](#advantages)
+  - [Limitations](#limitations)
+  - [Example Conversation](#example-conversation)
+- [AI Agent with Confirmation](#ai-agent-with-confirmation)
+  - [Architecture](#architecture-1)
+  - [Implementation Details](#implementation-details-1)
+  - [Advantages](#advantages-1)
+  - [Limitations](#limitations-1)
+  - [Example Conversation](#example-conversation-1)
+- [AI Agent with Conditional Interrupt](#ai-agent-with-conditional-interrupt)
+  - [Architecture](#architecture-2)
+  - [Implementation Details](#implementation-details-2)
+  - [Advantages](#advantages-2)
+  - [Limitations](#limitations-2)
+  - [Example Conversation](#example-conversation-2)
+- [Supervisor-Worker AI Agent Architecture](#supervisor-worker-ai-agent-architecture)
+  - [Architecture](#architecture-3)
+  - [Implementation Details](#implementation-details-3)
+  - [Advantages](#advantages-3)
+  - [Limitations](#limitations-3)
+  - [Example Conversation](#example-conversation-3)
+- [Conclusion](#conclusion)
+
 ## Why AI Agents
 
 Traditional machine learning chatbots have long been used for customer interactions, but they've had significant limitations. They typically operated on predefined decision trees or simple pattern matching, making them rigid and unable to adapt to complex user needs. While they could maintain basic conversations, their ability to understand context, reason, and take appropriate actions on behalf of users was severely limited.
@@ -7,6 +45,8 @@ Traditional machine learning chatbots have long been used for customer interacti
 AI Agents represent a paradigm shift in this domain. By leveraging advanced Large Language Models (LLMs) and structured tool usage frameworks, we can build systems that not only understand user requests but can actively execute actions on their behalf. Here's how the architecture has evolved:
 
 ### Traditional Chatbots vs. AI Agents
+
+![Traditional Chatbot](project_snapshots/traditional_chatbot_system.jpg)
 
 Traditional chatbots could only respond based on their pre-programmed knowledge and patterns. Even advanced LLMs like ChatGPT have limitations - they have a knowledge cutoff date and can't access external tools or systems. While they can generate human-like responses, they can't actually "do" anything in the real world or access up-to-date information.
 
