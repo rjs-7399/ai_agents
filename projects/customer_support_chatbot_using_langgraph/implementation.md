@@ -50,6 +50,8 @@ AI Agents represent a paradigm shift in this domain. By leveraging advanced Larg
 
 Traditional chatbots could only respond based on their pre-programmed knowledge and patterns. Even advanced LLMs like ChatGPT have limitations - they have a knowledge cutoff date and can't access external tools or systems. While they can generate human-like responses, they can't actually "do" anything in the real world or access up-to-date information.
 
+![Multi-AI Agent Workflow](project_snapshots/part_4_multi_ai_agent_workflow.jpg)
+
 AI Agents overcome these limitations by combining LLMs with:
 - **Tools Integration**: Ability to call external functions, APIs, and databases
 - **Context Management**: Maintaining conversational state across interactions
