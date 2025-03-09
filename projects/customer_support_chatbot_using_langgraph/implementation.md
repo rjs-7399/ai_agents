@@ -64,6 +64,8 @@ AI Agents overcome these limitations by combining LLMs with:
 
 The introduction of Large Language Models (LLMs) like GPT revolutionized conversational AI in several key ways:
 
+![Simple AI Assistant](project_snapshots/part_0_ai_assistant.jpg)
+
 #### First Generation: Basic LLM Chatbots (e.g., ChatGPT)
 
 - Deep natural language understanding that can interpret complex requests
